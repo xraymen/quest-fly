@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'koulen', sans-serif;
+            background-color: #FFA6A6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #FFA6A6;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo {
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
+            background-color: #FF8B03;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-link {
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #FFA6A6;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+    }
+    @media (min-width: 768px) {
+      footer .text-right,
+      footer .text-left {
+        width: 45%;
+      }
+    }
+    </style>
+    <title>Login Page</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html"><img src="img/logo.png" alt="logo"></a></div>
+    </header>
+    </div>
+    <main>
+        <div class="login-container">
+            <h2>Login to Your Account</h2>
+            <form action="vhod.php" method="POST">
+                <input type="text" placeholder="login" required><br>
+                <input type="password" placeholder="Password" required><br>
+                <button type="submit">Login</button>
+            </form>
+            <div class="register-link">
+                <p>Don't have an account? <a href="regist.html">Register</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+    </footer>
+</body>
+</html>
+
+<?php
+require_once('connect.php');
+if (!empty($_REQUEST['login'])&& !empty($_REQUEST['password'])) {
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM Users WHERE login = '$login";
+    $result = $db->query($sql);
+
+    if ($result->num_rows > 0) {
+        $user=$result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            echo "Добро пожаловать, ". $user['login']. "!";
+
+        }
+    else {
+        echo "Нет такого пользователя";
+    }
+    }
+}
+?>
